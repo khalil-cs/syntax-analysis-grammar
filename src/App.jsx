@@ -17,6 +17,10 @@ import ReferencesSection from './sections/ReferencesSection';
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  // Controls the collapsed/expanded state of the desktop sidebar.
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  
   const [isPresentationMode, setIsPresentationMode] = useState(false);
   
   // Theme state: initialized from localStorage or defaults to 'light'
@@ -77,13 +81,26 @@ export default function App() {
   };
 
   return (
-    <div className="app-container">
-      {/* Sidebar Navigation */}
+    // Dynamically applies 'sidebar-collapsed' class when desktop sidebar is collapsed.
+    <div className={`app-container ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+      {/* Sidebar Navigation with Desktop Collapse & Mobile Drawer Handlers */}
       <Sidebar 
         activeSection={activeSection} 
         onSelectSection={scrollToSection}
         sidebarOpen={sidebarOpen}
+        sidebarCollapsed={sidebarCollapsed}
+        onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+        onCloseMobile={() => setSidebarOpen(false)}
       />
+
+      {/* Mobile Backdrop Overlay: Closes mobile drawer when tapped outside */}
+      {sidebarOpen && (
+        <div 
+          className="sidebar-backdrop" 
+          onClick={() => setSidebarOpen(false)}
+          aria-hidden="true"
+        />
+      )}
 
       {/* Main Content Area */}
       <div className="main-wrapper">
