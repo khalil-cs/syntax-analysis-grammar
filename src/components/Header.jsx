@@ -12,13 +12,15 @@ export default function Header({
   return (
     <header className="site-header">
       <div className="header-title-group">
+        {/* Responsive Mobile Menu Button: Opens navigation drawer on mobile/tablet */}
         <button 
-          className="btn btn-outline btn-sm mobile-only"
+          className="btn btn-outline btn-sm mobile-menu-toggle"
           onClick={() => setSidebarOpen(!sidebarOpen)}
           aria-label="Toggle navigation menu"
-          style={{ display: 'none' }}
+          title="Open Menu"
         >
           {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
+          <span className="mobile-menu-text">Menu</span>
         </button>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
