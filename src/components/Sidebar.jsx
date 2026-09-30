@@ -10,7 +10,10 @@ import {
   GitMerge, 
   AlertTriangle, 
   CheckSquare, 
-  Bookmark 
+  Bookmark,
+  ChevronLeft,
+  ChevronRight,
+  X
 } from 'lucide-react';
 
 const sectionIcons = {
@@ -26,15 +29,46 @@ const sectionIcons = {
   'references': Bookmark
 };
 
-export default function Sidebar({ activeSection, onSelectSection, sidebarOpen }) {
+export default function Sidebar({ 
+  activeSection, 
+  onSelectSection, 
+  sidebarOpen, 
+  sidebarCollapsed, 
+  onToggleCollapse,
+  onCloseMobile 
+}) {
   return (
-    <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+    // Toggles 'open' for mobile drawer overlay & 'collapsed' for compact desktop rail view
+    <aside className={`sidebar ${sidebarOpen ? 'open' : ''} ${sidebarCollapsed ? 'collapsed' : ''}`}>
       <div className="sidebar-header">
         <div className="sidebar-logo-icon">CC</div>
-        <div>
-          <div className="sidebar-title">Syntax Analysis</div>
-          <div className="sidebar-subtitle">BSCS Assignment & Demo</div>
-        </div>
+        
+        {/* Hides title group when desktop sidebar is collapsed */}
+        {!sidebarCollapsed && (
+          <div className="sidebar-title-group">
+            <div className="sidebar-title">Syntax Analysis</div>
+            <div className="sidebar-subtitle">BSCS Assignment & Demo</div>
+          </div>
+        )}
+
+        {/* Desktop Collapse/Expand Toggle Button */}
+        <button 
+          className="sidebar-collapse-btn desktop-only"
+          onClick={onToggleCollapse}
+          title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          {sidebarCollapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+        </button>
+
+        {/* Mobile Drawer Close Button */}
+        <button 
+          className="sidebar-close-btn mobile-only"
+          onClick={onCloseMobile}
+          aria-label="Close navigation menu"
+        >
+          <X size={20} />
+        </button>
       </div>
 
       <nav className="sidebar-nav">
@@ -47,21 +81,29 @@ export default function Sidebar({ activeSection, onSelectSection, sidebarOpen })
               key={sec.id}
               className={`nav-item ${isActive ? 'active' : ''}`}
               onClick={() => onSelectSection(sec.id)}
+              title={sidebarCollapsed ? sec.shortTitle : undefined}
             >
               <span className="nav-item-num">{String(idx + 1).padStart(2, '0')}</span>
-              <IconComponent size={16} />
-              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {sec.shortTitle}
-              </span>
+              <IconComponent size={18} style={{ flexShrink: 0 }} />
+              
+              {/* Hides text labels when desktop sidebar is collapsed */}
+              {!sidebarCollapsed && (
+                <span className="nav-item-text">
+                  {sec.shortTitle}
+                </span>
+              )}
             </button>
           );
         })}
       </nav>
 
-      <div className="sidebar-footer">
-        <div>Course: <strong>Compiler Construction</strong></div>
-        <div style={{ marginTop: '0.2rem', opacity: 0.8 }}>Topic: Syntax Analysis & Grammar</div>
-      </div>
+      {/* Hides footer info when desktop sidebar is collapsed */}
+      {!sidebarCollapsed && (
+        <div className="sidebar-footer">
+          <div>Course: <strong>Compiler Construction</strong></div>
+          <div style={{ marginTop: '0.2rem', opacity: 0.8 }}>Topic: Syntax Analysis & Grammar</div>
+        </div>
+      )}
     </aside>
   );
 }
