@@ -726,3 +726,212 @@ a:focus-visible {
     break-inside: avoid;
   }
 }
+
+/* ==========================================================================
+   DESKTOP COLLAPSED SIDEBAR & MOBILE DRAWER OVERLAY STYLES
+   ========================================================================== */
+
+/* Reduces container width allocation when desktop sidebar is collapsed */
+.app-container.sidebar-collapsed {
+  --sidebar-width: 72px;
+}
+
+/* Compact rail view for collapsed desktop sidebar */
+.sidebar.collapsed {
+  width: 72px;
+}
+
+.sidebar.collapsed .sidebar-header {
+  justify-content: center;
+  padding: 1rem 0.5rem;
+}
+
+.sidebar.collapsed .nav-item {
+  justify-content: center;
+  padding: 0.75rem 0.5rem;
+}
+
+.sidebar.collapsed .nav-item-num {
+  display: none;
+}
+
+/* Toggle button styling for desktop sidebar collapse/expand */
+.sidebar-collapse-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  margin-left: auto;
+  transition: all 0.15s ease;
+}
+
+.sidebar-collapse-btn:hover {
+  background-color: var(--surface-alt);
+  color: var(--primary-color);
+}
+
+.sidebar-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: none;
+  margin-left: auto;
+}
+
+.mobile-menu-toggle {
+  display: none;
+}
+
+/* Dark translucent backdrop overlay for mobile drawer */
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  z-index: 45;
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS (TABLET & MOBILE)
+   ========================================================================== */
+
+/* Laptop / Desktop medium screens (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .content-area {
+    padding: 2rem 1.75rem;
+  }
+}
+
+/* Tablet & Mobile Screens (max-width: 900px) */
+@media (max-width: 900px) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-menu-toggle {
+    display: inline-flex !important;
+  }
+
+  /* Converts sidebar into a mobile drawer overlay */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 280px !important;
+    z-index: 50;
+    transform: translateX(-100%);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-close-btn {
+    display: inline-flex !important;
+  }
+
+  .site-header {
+    padding: 0 1rem;
+  }
+
+  .header-badge {
+    display: none; /* Hides badge on narrow headers to prevent title collision */
+  }
+
+  .header-actions {
+    gap: 0.4rem;
+  }
+
+  .header-actions .btn span {
+    display: none; /* Shows icon-only buttons on small mobile screens */
+  }
+
+  .header-actions .btn {
+    padding: 0.45rem 0.6rem;
+  }
+
+  .content-area {
+    padding: 1.25rem 1rem;
+  }
+
+  /* Stacks student information card fields vertically on small screens */
+  .student-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .student-field[style*="gridColumn"] {
+    grid-column: span 1 !important;
+  }
+
+  /* Allows derivation step controls to wrap naturally */
+  .derivation-controls {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  /* Prevents tables, trees, and code blocks from causing horizontal page overflow */
+  .academic-table,
+  .parse-tree-wrapper,
+  .expression-box {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Presentation Mode Mobile Layout Adjustments */
+  .presentation-header {
+    padding: 0 1rem;
+  }
+
+  .presentation-title {
+    font-size: 0.95rem;
+  }
+
+  .presentation-progress {
+    display: none;
+  }
+
+  .presentation-body {
+    padding: 1.5rem 1rem;
+  }
+
+  .presentation-footer {
+    padding: 0 1rem;
+  }
+
+  .presentation-footer > div {
+    display: none;
+  }
+}
+
+/* Small Mobile Phone Screens (max-width: 480px) */
+@media (max-width: 480px) {
+  .site-header h1 {
+    font-size: 0.95rem !important;
+  }
+
+  .section-main-title {
+    font-size: 1.45rem;
+  }
+
+  .college-main-title {
+    font-size: 1.4rem;
+  }
+
+  .expression-tokens {
+    font-size: 1.25rem;
+  }
+}
