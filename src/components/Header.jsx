@@ -1,5 +1,5 @@
 import React from 'react';
-import { Play, Printer, Menu, X, BookOpen, Sun, Moon } from 'lucide-react';
+import { Play, Printer, BookOpen, Sun, Moon } from 'lucide-react';
 
 export default function Header({ 
   onTogglePresentation, 
@@ -13,15 +13,7 @@ export default function Header({
     <header className="site-header">
       <div className="header-title-group">
         {/* Responsive Mobile Menu Button: Opens navigation drawer on mobile/tablet */}
-        <button 
-          className="btn btn-outline btn-sm mobile-menu-toggle"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          aria-label="Toggle navigation menu"
-          title="Open Menu"
-        >
-          {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
-          <span className="mobile-menu-text">Menu</span>
-        </button>
+        
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           <BookOpen size={20} color="var(--primary-color)" />
